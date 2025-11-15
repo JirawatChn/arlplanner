@@ -47,6 +47,15 @@ export default {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        metro: {
+          blue: "hsl(var(--metro-blue))",
+          light: "hsl(var(--metro-light))",
+        },
+        density: {
+          low: "hsl(var(--density-low))",
+          medium: "hsl(var(--density-medium))",
+          high: "hsl(var(--density-high))",
+        },
         sidebar: {
           DEFAULT: "hsl(var(--sidebar-background))",
           foreground: "hsl(var(--sidebar-foreground))",
