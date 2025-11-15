@@ -43,7 +43,7 @@ export const StationLine = ({ selectedStation, onStationSelect }: StationLinePro
                 >
                   {station.code}
                 </div>
-                <span className="text-xs text-muted-foreground text-center max-w-[80px]">
+                <span className="text-xs text-muted-foreground text-center max-w-[100px]">
                   {station.name}
                 </span>
               </button>
