@@ -8,12 +8,14 @@ import { toast } from "sonner";
 
 const Predict = () => {
   const [selectedStation, setSelectedStation] = useState("A1");
+  const [showForecast, setShowForecast] = useState(false);
 
   const handleStationChange = (station: string) => {
     setSelectedStation(station);
   };
 
   const handlePredict = () => {
+    setShowForecast(true);
     toast.success("Prediction generated successfully!");
   };
 
@@ -38,7 +40,7 @@ const Predict = () => {
               selectedStation={selectedStation}
               onStationSelect={handleStationChange}
             />
-            <DensityForecast />
+            {showForecast && <DensityForecast />}
           </div>
         </div>
       </main>
