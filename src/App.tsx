@@ -12,20 +12,24 @@ import Dashboard from "./pages/Dashboard";
 
 const queryClient = new QueryClient();
 
-const router = createBrowserRouter([
-  { path: "/", element: <Home /> },
-  { path: "/predict", element: <Predict /> },
-  { path: "/timetable", element: <Timetable /> },
-  { path: "/dashboard", element: <Dashboard /> },
-  { path: "*", element: <NotFound /> },
-]);
+const router = createBrowserRouter(
+  [
+    { path: "/", element: <Home /> },
+    { path: "/predict", element: <Predict /> },
+    { path: "/timetable", element: <Timetable /> },
+    { path: "/dashboard", element: <Dashboard /> },
+    { path: "*", element: <NotFound /> },
+  ],
+  {
+    basename: "/arlplanner",
+  }
+);
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
       <Toaster />
       <Sonner />
-
       <RouterProvider
         router={router}
         future={{

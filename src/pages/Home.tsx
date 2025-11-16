@@ -3,6 +3,7 @@ import { Footer } from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { ArrowRight, BarChart3, Train, Clock } from "lucide-react";
+import logo from "/logo.png";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -10,11 +11,9 @@ const Home = () => {
   return (
     <div className="min-h-screen flex flex-col bg-background">
       <TopNavigation />
-
-      {/* โลโก้ด้านบน */}
       <div className="flex justify-center mt-8">
         <img
-          src="/logo.png"
+          src={logo}
           alt="ARL Planner Logo"
           className="h-44 rounded-full object-cover shadow-md"
         />
