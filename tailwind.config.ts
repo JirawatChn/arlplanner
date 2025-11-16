@@ -55,6 +55,7 @@ export default {
           low: "hsl(var(--density-low))",
           medium: "hsl(var(--density-medium))",
           high: "hsl(var(--density-high))",
+          veryhigh:"hsl(var(--density-veryhigh))",
         },
         sidebar: {
           DEFAULT: "hsl(var(--sidebar-background))",

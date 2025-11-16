@@ -1,26 +1,24 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { stations } from "@/data/stations";
 
 interface StationLineProps {
   selectedStation: string;
   onStationSelect: (station: string) => void;
 }
 
-const stations = [
-  { code: "A1", name: "Phaya Thai" },
-  { code: "A2", name: "Ratchaprarop" },
-  { code: "A3", name: "Makkasan" },
-  { code: "A4", name: "Ramkhamhaeng" },
-  { code: "A5", name: "Hua Mak" },
-  { code: "A6", name: "Ban Thap Chang" },
-  { code: "A7", name: "Lat Krabang" },
-  { code: "A8", name: "Suvarnabhumi" },
-];
-
-export const StationLine = ({ selectedStation, onStationSelect }: StationLineProps) => {
+export const StationLine = ({
+  selectedStation,
+  onStationSelect,
+}: StationLineProps) => {
   return (
     <Card className="w-full bg-card shadow-md">
       <CardHeader>
-        <CardTitle className="text-xl font-semibold">Airport Rail Link Stations</CardTitle>
+        <CardTitle className="text-xl font-semibold">
+          <div className="flex flex-col">
+            <span className="text-xl font-semibold">สถานีแอร์พอร์ต เรล ลิงก์</span>
+            <span className="text-sm text-muted-foreground">Airport Rail Link Stations</span>
+          </div>
+        </CardTitle>
       </CardHeader>
       <CardContent>
         <div className="flex items-center justify-between gap-2 py-4">
@@ -43,10 +41,18 @@ export const StationLine = ({ selectedStation, onStationSelect }: StationLinePro
                 >
                   {station.code}
                 </div>
-                <span className="text-xs text-muted-foreground text-center max-w-[100px]">
-                  {station.name}
+
+                {/* 🇹🇭 ชื่อไทย */}
+                <span className="text-xs text-foreground text-center leading-tight">
+                  {station.name.th}
+                </span>
+
+                {/* 🇬🇧 ชื่ออังกฤษ */}
+                <span className="text-[12px] text-muted-foreground text-center leading-tight">
+                  {station.name.en}
                 </span>
               </button>
+
               {index < stations.length - 1 && (
                 <div className="h-0.5 w-8 bg-border mx-1" />
               )}

@@ -37,12 +37,13 @@ All colors MUST be HSL.
     --ring: 221 83% 40%;
 
     --radius: 0.75rem;
-    
+
     --metro-blue: 221 83% 40%;
     --metro-light: 217 91% 60%;
-    --density-low: 220 9% 46%;
-    --density-medium: 45 93% 47%;
-    --density-high: 0 72% 51%;
+    --density-low: 130 55% 45%; /* เขียว */
+    --density-medium: 45 93% 50%; /* เหลือง */
+    --density-high: 28 90% 52%; /* ส้ม */
+    --density-veryhigh: 0 72% 50%; /* แดง */
 
     --sidebar-background: 0 0% 98%;
 
@@ -89,7 +90,7 @@ All colors MUST be HSL.
     --border: 220 13% 18%;
     --input: 220 13% 18%;
     --ring: 217 91% 60%;
-    
+
     --metro-blue: 217 91% 60%;
     --metro-light: 217 91% 70%;
     --density-low: 220 9% 65%;

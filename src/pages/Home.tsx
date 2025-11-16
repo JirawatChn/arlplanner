@@ -10,27 +10,42 @@ const Home = () => {
   return (
     <div className="min-h-screen flex flex-col bg-background">
       <TopNavigation />
-      
-      <main className="flex-1 container mx-auto px-6 py-16">
-        <div className="max-w-4xl mx-auto text-center space-y-8">
+
+      {/* โลโก้ด้านบน */}
+      <div className="flex justify-center mt-8">
+        <img
+          src="/logo.png"
+          alt="ARL Planner Logo"
+          className="h-44 rounded-full object-cover shadow-md"
+        />
+      </div>
+
+      <main className="flex-1 container mx-auto px-6 py-8">
+        <div className="max-w-6xl mx-auto text-center space-y-10">
+          {/* หัวข้อหลัก */}
           <div className="space-y-4">
-            <h1 className="text-5xl font-bold text-foreground">
+            <h1 className="text-4xl md:text-5xl font-bold text-foreground leading-tight">
               Airport Rail Link
               <br />
-              <span className="text-primary">Passenger Density Prediction</span>
+              <span className="text-primary">
+                ระบบทำนายความหนาแน่นผู้โดยสาร
+              </span>
             </h1>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Plan your journey with confidence. Get real-time predictions of passenger density across all Airport Rail Link stations.
+
+            <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto">
+              วางแผนการเดินทางได้มั่นใจยิ่งขึ้น
+              พร้อมดูการคาดการณ์ความหนาแน่นผู้โดยสาร ในแต่ละสถานี
             </p>
           </div>
 
-          <div className="flex justify-center gap-4">
+          {/* ปุ่มหลัก */}
+          <div className="flex flex-wrap justify-center gap-4">
             <Button
               size="lg"
               onClick={() => navigate("/predict")}
               className="bg-primary text-primary-foreground hover:bg-primary/90 rounded-lg h-12 px-8"
             >
-              Start Predicting
+              เริ่มทำนายความหนาแน่น
               <ArrowRight className="ml-2 h-5 w-5" />
             </Button>
             <Button
@@ -39,38 +54,51 @@ const Home = () => {
               onClick={() => navigate("/timetable")}
               className="rounded-lg h-12 px-8"
             >
-              View Timetable
+              ค้นหาเวลาที่เหมาะสม
             </Button>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-16">
-            <div className="p-6 bg-card rounded-lg border border-border shadow-sm">
-              <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-4 mx-auto">
+          {/* 3 Block ฟีเจอร์ */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-16 max-w-6xl mx-auto">
+            {/* Block 1 */}
+            <div className="p-8 bg-card rounded-2xl border border-border shadow-sm h-full flex flex-col items-center text-center">
+              <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-4">
                 <BarChart3 className="h-6 w-6 text-primary" />
               </div>
-              <h3 className="font-semibold text-lg mb-2">Accurate Predictions</h3>
-              <p className="text-sm text-muted-foreground">
-                Advanced algorithms analyze historical data to provide reliable passenger density forecasts.
+              <h3 className="font-semibold text-lg mb-3">
+                แสดงความหนาแน่นผู้โดยสาร
+              </h3>
+              <p className="text-sm text-muted-foreground leading-relaxed">
+                แสดงข้อมูลการคาดการณ์ความหนาแน่นล่วงหน้า <br />
+                เพื่อช่วยให้คุณตัดสินใจได้ง่ายขึ้น
               </p>
             </div>
 
-            <div className="p-6 bg-card rounded-lg border border-border shadow-sm">
-              <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-4 mx-auto">
+            {/* Block 2 */}
+            <div className="p-8 bg-card rounded-2xl border border-border shadow-sm h-full flex flex-col items-center text-center">
+              <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-4">
                 <Train className="h-6 w-6 text-primary" />
               </div>
-              <h3 className="font-semibold text-lg mb-2">All Stations Covered</h3>
-              <p className="text-sm text-muted-foreground">
-                Get insights for all 8 stations from Phaya Thai to Suvarnabhumi Airport.
+              <h3 className="font-semibold text-lg mb-3">
+                ช่วยวางแผนเวลาการเดินทาง
+              </h3>
+              <p className="text-sm text-muted-foreground leading-relaxed">
+                เลือกช่วงเวลาที่เหมาะสม ลดความไม่แน่นอน <br />
+                และเลี่ยงช่วงที่ผู้โดยสารหนาแน่น
               </p>
             </div>
 
-            <div className="p-6 bg-card rounded-lg border border-border shadow-sm">
-              <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-4 mx-auto">
+            {/* Block 3 */}
+            <div className="p-8 bg-card rounded-2xl border border-border shadow-sm h-full flex flex-col items-center text-center">
+              <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-4">
                 <Clock className="h-6 w-6 text-primary" />
               </div>
-              <h3 className="font-semibold text-lg mb-2">Real-Time Updates</h3>
-              <p className="text-sm text-muted-foreground">
-                Access current and future density predictions to plan your travel effectively.
+              <h3 className="font-semibold text-lg mb-3">
+                เลือกช่วงเวลาที่ไม่แออัด
+              </h3>
+              <p className="text-sm text-muted-foreground leading-relaxed">
+                ดูช่วงเวลาที่คนน้อยกว่าปกติ <br />
+                เพื่อการเดินทางที่สะดวกและรวดเร็วยิ่งขึ้น
               </p>
             </div>
           </div>
