@@ -12,6 +12,7 @@ export interface PredictionResult {
   prediction_date: string;
   model_version: string;
 }
+
 export interface ForecastBlock {
   hour: string;
   passengers: number;
@@ -23,6 +24,7 @@ interface DensityForecastProps {
   predictionDate: string;
   forecast: ForecastBlock[] | null;
   status: "idle" | "success" | "error" | "no-data";
+  mode: "predict" | "recommend";
 }
 
 type DensityLevel = "คนน้อย" | "ปานกลาง" | "คนเยอะ" | "หนาแน่นมาก";
@@ -37,13 +39,13 @@ function getDensityLevel(passengers: number): DensityLevel {
 const getDensityStyles = (density: DensityLevel) => {
   switch (density) {
     case "คนน้อย":
-      return "bg-density-low/20 text-density-low border-density-low/30";
+      return "bg-density-low/25 text-density-low border-density-low/50";
     case "ปานกลาง":
-      return "bg-density-medium/20 text-density-medium border-density-medium/30";
+      return "bg-density-medium/25 text-density-medium border-density-medium/50";
     case "คนเยอะ":
-      return "bg-density-high/20 text-density-high border-density-high/30";
+      return "bg-density-high/25 text-density-high border-density-high/50";
     case "หนาแน่นมาก":
-      return "bg-density-veryhigh/20 text-density-veryhigh border-density-veryhigh/30";
+      return "bg-density-veryhigh/25 text-density-veryhigh border-density-veryhigh/50";
   }
 };
 
@@ -52,6 +54,7 @@ export const DensityForecast = ({
   predictionDate,
   forecast,
   status,
+  mode,
 }: DensityForecastProps) => {
   const stationInfo = stations.find((s) => s.code === stationCode);
   const stationNameTH = stationInfo?.name.th || "";
@@ -89,7 +92,6 @@ export const DensityForecast = ({
     );
   }
 
-  // 🔴 เคส error อื่น ๆ (optional ถ้าอยากแยกข้อความ)
   if (status === "error") {
     return (
       <Card className="w-full bg-card shadow-md">
@@ -138,10 +140,25 @@ export const DensityForecast = ({
       <CardHeader>
         <CardTitle className="text-xl font-semibold">
           <div className="flex flex-col">
-            <span className="text-xl font-semibold">ความหนาแน่นผู้โดยสาร</span>
-            <span className="text-sm text-muted-foreground">
-              Passenger Density
-            </span>
+            {mode === "predict" ? (
+              <>
+                <span className="text-xl font-semibold">
+                  ความหนาแน่นผู้โดยสาร
+                </span>
+                <span className="text-sm text-muted-foreground">
+                  Passenger Density
+                </span>
+              </>
+            ) : (
+              <>
+                <span className="text-xl font-semibold">
+                  3 ช่วงเวลาที่คนน้อยที่สุด
+                </span>
+                <span className="text-sm text-muted-foreground">
+                  Recommended Low-Density Hours
+                </span>
+              </>
+            )}
           </div>
         </CardTitle>
       </CardHeader>
@@ -155,10 +172,25 @@ export const DensityForecast = ({
           {forecast.map((item, index) => {
             const density = getDensityLevel(item.passengers);
 
+            const isMin = item.hour === minSlot.hour;
+            const isMax = item.hour === maxSlot.hour;
+
+            const blockStyle =
+              mode === "recommend"
+                ? "bg-background border-border"
+                : isMin
+                ? "bg-density-low/10 border-density-low"
+                : isMax
+                ? "bg-density-veryhigh/10 border-density-veryhigh"
+                : "bg-background border-border hover:border-accent/50";
+
             return (
               <div
                 key={index}
-                className="flex items-center justify-between p-4 bg-background rounded-lg border border-border hover:border-accent/50 transition-colors"
+                className={`
+                  flex items-center justify-between p-4 rounded-lg border transition-colors
+                  ${blockStyle}
+                `}
               >
                 <div className="flex-1">
                   <div className="font-medium text-foreground">
@@ -181,27 +213,29 @@ export const DensityForecast = ({
         </div>
 
         {/* Suggestion / Prediction Summary */}
-        <div className="flex items-start gap-3 p-4 bg-accent/10 rounded-lg border border-accent/20 mt-6">
-          <Info className="h-5 w-5 text-accent flex-shrink-0 mt-0.5" />
-          <div>
-            <div className="font-medium text-foreground mb-1">
-              Prediction Summary
+        {mode === "predict" && (
+          <div className="flex items-start gap-3 p-4 bg-accent/10 rounded-lg border border-accent/20 mt-6">
+            <Info className="h-5 w-5 text-accent flex-shrink-0 mt-0.5" />
+            <div>
+              <div className="font-medium text-foreground mb-1">
+                Prediction Summary
+              </div>
+              <p className="text-sm text-muted-foreground">
+                ช่วงที่คนน้อยที่สุด: <b>{hourToRange(Number(minSlot.hour))}</b>{" "}
+                ประมาณ {minSlot.passengers.toLocaleString()} คน
+                <br />
+                ช่วงที่หนาแน่นที่สุด: <b>
+                  {hourToRange(Number(maxSlot.hour))}
+                </b>{" "}
+                ประมาณ {maxSlot.passengers.toLocaleString()} คน
+                <br />
+              </p>
+              <p className="text-sm text-accent mt-2 font-medium">
+                {recommendation}
+              </p>
             </div>
-            <p className="text-sm text-muted-foreground">
-              ช่วงที่คนน้อยที่สุด: <b>{hourToRange(Number(minSlot.hour))}</b>{" "}
-              ประมาณ {minSlot.passengers.toLocaleString()} คน
-              <br />
-              ช่วงที่หนาแน่นที่สุด: <b>
-                {hourToRange(Number(maxSlot.hour))}
-              </b>{" "}
-              ประมาณ {maxSlot.passengers.toLocaleString()} คน
-              <br />
-            </p>
-            <p className="text-sm text-accent mt-2 font-medium">
-              {recommendation}
-            </p>
           </div>
-        </div>
+        )}
       </CardContent>
     </Card>
   );

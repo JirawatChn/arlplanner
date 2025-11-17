@@ -6,9 +6,10 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 import Home from "./pages/Home";
 import Predict from "./pages/Predict";
-import Timetable from "./pages/Timetable";
 import NotFound from "./pages/NotFound";
 import Dashboard from "./pages/Dashboard";
+import ThreeDaysPredict from "./pages/ThreeDaysPredict";
+import Overview from "./pages/Overview";
 
 const queryClient = new QueryClient();
 
@@ -16,8 +17,9 @@ const router = createBrowserRouter(
   [
     { path: "/", element: <Home /> },
     { path: "/predict", element: <Predict /> },
-    { path: "/timetable", element: <Timetable /> },
+    { path: "/overview", element: <Overview /> },
     { path: "/dashboard", element: <Dashboard /> },
+    { path: "/threedays", element: <ThreeDaysPredict /> },
     { path: "*", element: <NotFound /> },
   ],
   {

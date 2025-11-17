@@ -50,10 +50,10 @@ const Home = () => {
             <Button
               size="lg"
               variant="outline"
-              onClick={() => navigate("/timetable")}
+              onClick={() => navigate("/overview")}
               className="rounded-lg h-12 px-8"
             >
-              ค้นหาเวลาที่เหมาะสม
+              ดูความหนาแน่นตลอดวัน
             </Button>
           </div>
 

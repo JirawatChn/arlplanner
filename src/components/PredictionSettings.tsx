@@ -17,12 +17,17 @@ interface PredictionSettingsProps {
     predictionDate: string;
     timeRange: string;
   }) => void;
+  OnRecommendation: (params: {
+    station: string;
+    predictionDate: string;
+  }) => void;
 }
 
 export const PredictionSettings = ({
   selectedStation,
   onStationChange,
   onPredict,
+  OnRecommendation,
 }: PredictionSettingsProps) => {
   const [predictionDate, setPredictionDate] = useState("today");
   const [timeRange, setTimeRange] = useState("now");
@@ -118,6 +123,18 @@ export const PredictionSettings = ({
           className="w-full bg-primary text-primary-foreground hover:bg-primary/90 rounded-lg h-11 font-medium"
         >
           ดูความหนาแน่นผู้โดยสาร
+        </Button>
+        <Button
+          onClick={() =>
+            OnRecommendation({
+              station: selectedStation,
+              predictionDate,
+            })
+          }
+          variant="outline"
+          className="w-full h-11 rounded-lg font-medium border-primary text-primary hover:bg-primary/90"
+        >
+          แนะนำช่วงเวลาคนน้อย
         </Button>
       </CardContent>
     </Card>

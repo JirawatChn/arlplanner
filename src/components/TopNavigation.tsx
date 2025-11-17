@@ -5,7 +5,7 @@ import { LayoutGroup, motion } from "framer-motion";
 const navItems = [
   { to: "/", label: "Home" },
   { to: "/predict", label: "ทำนายความหนาแน่น" },
-  { to: "/timetable", label: "ค้นหาเวลา" },
+  { to: "/overview", label: "ความหนาแน่นรายวัน" },
   { to: "/dashboard", label: "Dashboard" },
 ];
 

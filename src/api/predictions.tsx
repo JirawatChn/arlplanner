@@ -25,7 +25,29 @@ export const fetchPredictions = async ({ station, date, hour }) => {
     });
 
     return response.data;
+  } catch (error) {
+    console.error("Error fetching prediction:", error);
+    throw error;
+  }
+};
 
+export const fetchRecommendation = async ({ station, date }) => {
+  try {
+    const response = await axios.post(`${API_URL}recommendation`, {
+      station,
+      date,
+    });
+    return response.data
+  } catch (error) {
+    console.error("Error fetching prediction:", error);
+    throw error;
+  }
+};
+
+export const threedaysPrediction = async ({ date }: { date: string }) => {
+  try {
+    const response = await axios.post(`${API_URL}3days`, { date });
+    return response;
   } catch (error) {
     console.error("Error fetching prediction:", error);
     throw error;
