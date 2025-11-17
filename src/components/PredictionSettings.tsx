@@ -76,7 +76,7 @@ export const PredictionSettings = ({
 
         <div className="space-y-2">
           <label className="text-sm font-medium text-foreground">
-            ช่วงเวลาที่ต้องการทำนาย
+            ช่วงเวลาเริ่มต้นในการทำนาย
           </label>
           <Select value={timeRange} onValueChange={setTimeRange}>
             <SelectTrigger className="w-full">
