@@ -47,7 +47,7 @@ const Predict = () => {
   }) => {
     const d = new Date();
     let finalDateValue = "";
-    setMode('predict');
+    setMode("predict");
 
     // ✓ แปลงวันที่ไทย (today / tomorrow / day-after)
     if (params.predictionDate === "today") {
@@ -132,87 +132,86 @@ const Predict = () => {
   };
 
   const handleRecommendation = async (params: {
-  station: string;
-  predictionDate: string; // "today" | "tomorrow" | "day-after"
-  timeRange: string; // มีมาก็ไม่เป็นไร เราไม่ใช้
-}) => {
-  const d = new Date();
-  let finalDateValue = "";
-  setMode("recommend");
+    station: string;
+    predictionDate: string; // "today" | "tomorrow" | "day-after"
+    timeRange: string; // มีมาก็ไม่เป็นไร เราไม่ใช้
+  }) => {
+    const d = new Date();
+    let finalDateValue = "";
+    setMode("recommend");
 
-  // ใช้ logic เดียวกับ handlePredict แปลงเป็น YYYY-MM-DD
-  if (params.predictionDate === "today") {
-    finalDateValue = getThaiDateString(d);
-  } else if (params.predictionDate === "tomorrow") {
-    d.setDate(d.getDate() + 1);
-    finalDateValue = getThaiDateString(d);
-  } else if (params.predictionDate === "day-after") {
-    d.setDate(d.getDate() + 2);
-    finalDateValue = getThaiDateString(d);
-  }
+    // ใช้ logic เดียวกับ handlePredict แปลงเป็น YYYY-MM-DD
+    if (params.predictionDate === "today") {
+      finalDateValue = getThaiDateString(d);
+    } else if (params.predictionDate === "tomorrow") {
+      d.setDate(d.getDate() + 1);
+      finalDateValue = getThaiDateString(d);
+    } else if (params.predictionDate === "day-after") {
+      d.setDate(d.getDate() + 2);
+      finalDateValue = getThaiDateString(d);
+    }
 
-  setFinalDate(finalDateValue);
-  setPredictedStation(params.station);
+    setFinalDate(finalDateValue);
+    setPredictedStation(params.station);
 
-  try {
-    setPredictionStatus("idle");
-    setShowForecast(false);
+    try {
+      setPredictionStatus("idle");
+      setShowForecast(false);
 
-    // 🔹 เรียก API แนะนำ
-    const apiResponse = await fetchRecommendation({
-      station: params.station,
-      date: finalDateValue,
-    });
+      // 🔹 เรียก API แนะนำ
+      const apiResponse = await fetchRecommendation({
+        station: params.station,
+        date: finalDateValue,
+      });
 
-    if (!apiResponse.results || apiResponse.results.length === 0) {
-      setForecastData(null);
-      setPredictionStatus("no-data");
+      if (!apiResponse.results || apiResponse.results.length === 0) {
+        setForecastData(null);
+        setPredictionStatus("no-data");
+        setShowForecast(true);
+        toast.error("ไม่พบช่วงเวลาที่คนน้อยสำหรับวันและสถานีนี้");
+        return;
+      }
+
+      // 🔹 เรียงตามเวลา (hour จากน้อยไปมาก)
+      const sortedResults = [...apiResponse.results].sort(
+        (a: PredictionResult, b: PredictionResult) => a.hour - b.hour
+      );
+
+      const mappedData: ForecastBlock[] = sortedResults.map(
+        (item: PredictionResult) => ({
+          hour: String(item.hour), // ถ้า ForecastBlock.hour เป็น string
+          passengers: item.prediction_passenger,
+          station: item.station,
+        })
+      );
+
+      setForecastData(mappedData);
+      setPredictionStatus("success");
       setShowForecast(true);
-      toast.error("ไม่พบช่วงเวลาที่คนน้อยสำหรับวันและสถานีนี้");
-      return;
-    }
 
-    // 🔹 เรียงตามเวลา (hour จากน้อยไปมาก)
-    const sortedResults = [...apiResponse.results].sort(
-      (a: PredictionResult, b: PredictionResult) => a.hour - b.hour
-    );
+      toast.success("แนะนำช่วงเวลาที่มีผู้โดยสารน้อยแล้ว");
+    } catch (error: unknown) {
+      console.error("Recommendation Error:", error);
 
-    const mappedData: ForecastBlock[] = sortedResults.map(
-      (item: PredictionResult) => ({
-        hour: String(item.hour),          // ถ้า ForecastBlock.hour เป็น string
-        passengers: item.prediction_passenger,
-        station: item.station,
-      })
-    );
+      let status: number | undefined = undefined;
+      if (isApiError(error)) {
+        status = error.status ?? error.response?.status;
+      }
 
-    setForecastData(mappedData);
-    setPredictionStatus("success");
-    setShowForecast(true);
+      if (status === 404) {
+        setForecastData(null);
+        setPredictionStatus("no-data");
+        setShowForecast(true);
+        toast.error("ไม่พบข้อมูลทำนายในวันและสถานีนี้");
+        return;
+      }
 
-    toast.success("แนะนำช่วงเวลาที่มีผู้โดยสารน้อยแล้ว");
-  } catch (error: unknown) {
-    console.error("Recommendation Error:", error);
-
-    let status: number | undefined = undefined;
-    if (isApiError(error)) {
-      status = error.status ?? error.response?.status;
-    }
-
-    if (status === 404) {
       setForecastData(null);
-      setPredictionStatus("no-data");
+      setPredictionStatus("error");
       setShowForecast(true);
-      toast.error("ไม่พบข้อมูลทำนายในวันและสถานีนี้");
-      return;
+      toast.error("ดึงข้อมูลคำแนะนำไม่สำเร็จ");
     }
-
-    setForecastData(null);
-    setPredictionStatus("error");
-    setShowForecast(true);
-    toast.error("ดึงข้อมูลคำแนะนำไม่สำเร็จ");
-  }
-};
-
+  };
 
   return (
     <div className="min-h-screen flex flex-col bg-background">
@@ -221,7 +220,7 @@ const Predict = () => {
       <main className="flex-1 container mx-auto px-6 py-8">
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
           {/* Left Panel - Prediction Settings */}
-          <div className="lg:col-span-1 sticky top-6 h-fit">
+          <div className="lg:col-span-1 lg:sticky top-6 h-fit">
             <PredictionSettings
               selectedStation={selectedStation}
               onStationChange={handleStationChange}
@@ -232,10 +231,13 @@ const Predict = () => {
 
           {/* Right Panel - Main Content */}
           <div className="lg:col-span-3 space-y-6">
-            <StationLine
-              selectedStation={selectedStation}
-              onStationSelect={handleStationChange}
-            />
+            <div className="hidden lg:block">
+              <StationLine
+                selectedStation={selectedStation}
+                onStationSelect={handleStationChange}
+              />
+            </div>
+
             {showForecast && (
               <DensityForecast
                 stationCode={predictedStation}

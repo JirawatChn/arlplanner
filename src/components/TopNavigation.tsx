@@ -1,5 +1,6 @@
+import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Train } from "lucide-react";
+import { Menu, Train, X } from "lucide-react";
 import { LayoutGroup, motion } from "framer-motion";
 
 const navItems = [
@@ -11,51 +12,98 @@ const navItems = [
 
 export const TopNavigation = () => {
   const location = useLocation();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  useEffect(() => {
+    setIsMenuOpen(false);
+  }, [location.pathname]);
+
+  const renderNavLinks = ({
+    layoutId,
+    containerClassName,
+    linkClassName = "",
+    onNavigate,
+  }: {
+    layoutId: string;
+    containerClassName: string;
+    linkClassName?: string;
+    onNavigate?: () => void;
+  }) => (
+    <LayoutGroup>
+      <div className={containerClassName}>
+        {navItems.map((item) => {
+          const isActive = location.pathname === item.to;
+          return (
+            <Link
+              key={item.to}
+              to={item.to}
+              onClick={onNavigate}
+              className={`relative px-4 py-2 text-sm font-medium rounded-full transition-colors ${linkClassName}`}
+            >
+              {isActive && (
+                <motion.span
+                  layoutId={layoutId}
+                  className="absolute inset-0 rounded-full bg-primary"
+                  transition={{ type: "spring", stiffness: 400, damping: 30 }}
+                />
+              )}
+              <span
+                className={`relative ${
+                  isActive
+                    ? "text-primary-foreground"
+                    : "text-muted-foreground hover:text-foreground"
+                }`}
+              >
+                {item.label}
+              </span>
+            </Link>
+          );
+        })}
+      </div>
+    </LayoutGroup>
+  );
 
   return (
     <nav className="w-full bg-background border-b border-border shadow-sm">
-      <div className="container mx-auto px-6 h-16 flex items-center justify-between">
-        <Link className="flex items-center gap-2" to="/">
-          <Train className="h-6 w-6 text-primary" />
-          <span className="font-semibold text-lg text-foreground">
-            ARL Planner
-          </span>
-        </Link>
+      <div className="container mx-auto px-4 lg:px-6">
+        <div className="h-16 flex items-center justify-between gap-4">
+          <Link className="flex items-center gap-2" to="/">
+            <Train className="h-6 w-6 text-primary" />
+            <span className="font-semibold text-lg text-foreground">
+              ARL Planner
+            </span>
+          </Link>
 
-        <LayoutGroup>
-          <div className="flex items-center gap-2">
-            {navItems.map((item) => {
-              const isActive = location.pathname === item.to;
-              return (
-                <Link
-                  key={item.to}
-                  to={item.to}
-                  className="relative px-4 py-2 text-sm font-medium rounded-full"
-                >
-                  {/* พื้น pill สีฟ้าที่เลื่อนตามเมนู */}
-                  {isActive && (
-                    <motion.span
-                      layoutId="nav-pill"
-                      className="absolute inset-0 rounded-full bg-primary"
-                      transition={{ type: "spring", stiffness: 400, damping: 30 }}
-                    />
-                  )}
-
-                  {/* ตัวอักษร */}
-                  <span
-                    className={`relative ${
-                      isActive
-                        ? "text-primary-foreground"
-                        : "text-muted-foreground hover:text-foreground"
-                    }`}
-                  >
-                    {item.label}
-                  </span>
-                </Link>
-              );
+          <div className="hidden lg:block">
+            {renderNavLinks({
+              layoutId: "nav-pill-desktop",
+              containerClassName: "flex items-center gap-2",
             })}
           </div>
-        </LayoutGroup>
+
+          <button
+            type="button"
+            className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-border text-foreground hover:bg-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 lg:hidden"
+            aria-label="Toggle navigation menu"
+            aria-expanded={isMenuOpen}
+            onClick={() => setIsMenuOpen((prev) => !prev)}
+          >
+            {isMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+          </button>
+        </div>
+
+        <div
+          className={`${
+            isMenuOpen ? "flex" : "hidden"
+          } lg:hidden flex-col border-t border-border pb-4 pt-3`}
+        >
+          {renderNavLinks({
+            layoutId: "nav-pill-mobile",
+            containerClassName: "flex flex-col gap-2",
+            linkClassName: "w-full text-left",
+            onNavigate: () => setIsMenuOpen(false),
+          })}
+        </div>
       </div>
     </nav>
   );
