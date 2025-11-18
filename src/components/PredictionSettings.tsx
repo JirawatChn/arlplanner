@@ -111,31 +111,32 @@ export const PredictionSettings = ({
             </SelectContent>
           </Select>
         </div>
-
-        <Button
-          onClick={() =>
-            onPredict({
-              station: selectedStation,
-              predictionDate,
-              timeRange,
-            })
-          }
-          className="w-full bg-primary text-primary-foreground hover:bg-primary/90 rounded-lg h-11 font-medium"
-        >
-          ดูความหนาแน่นผู้โดยสาร
-        </Button>
-        <Button
-          onClick={() =>
-            OnRecommendation({
-              station: selectedStation,
-              predictionDate,
-            })
-          }
-          variant="outline"
-          className="w-full h-11 rounded-lg font-medium border-primary text-primary hover:bg-primary/90"
-        >
-          แนะนำช่วงเวลาคนน้อย
-        </Button>
+        <div className="space-y-2">
+          <Button
+            onClick={() =>
+              onPredict({
+                station: selectedStation,
+                predictionDate,
+                timeRange,
+              })
+            }
+            className="w-full bg-primary text-primary-foreground hover:bg-primary/90 rounded-lg h-11 font-medium"
+          >
+            ดูความหนาแน่นผู้โดยสาร
+          </Button>
+          <Button
+            onClick={() =>
+              OnRecommendation({
+                station: selectedStation,
+                predictionDate,
+              })
+            }
+            variant="outline"
+            className="w-full h-11 rounded-lg font-medium border-primary text-primary hover:bg-primary/90"
+          >
+            แนะนำช่วงเวลาคนน้อย
+          </Button>
+        </div>
       </CardContent>
     </Card>
   );
