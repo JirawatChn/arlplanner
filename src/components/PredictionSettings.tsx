@@ -132,7 +132,7 @@ export const PredictionSettings = ({
               })
             }
             variant="outline"
-            className="w-full h-11 rounded-lg font-medium border-primary text-primary hover:bg-primary/90"
+            className="w-full h-11 rounded-lg font-medium border-primary text-primary"
           >
             แนะนำช่วงเวลาคนน้อย
           </Button>

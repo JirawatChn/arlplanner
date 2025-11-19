@@ -4,19 +4,25 @@ import { stations } from "@/data/stations";
 interface StationLineProps {
   selectedStation: string;
   onStationSelect: (station: string) => void;
+  page: "predict" | "overview";
 }
 
 export const StationLine = ({
   selectedStation,
   onStationSelect,
+  page,
 }: StationLineProps) => {
   return (
     <Card className="w-full bg-card shadow-md">
       <CardHeader>
         <CardTitle className="text-xl font-semibold">
           <div className="flex flex-col">
-            <span className="text-xl font-semibold">สถานีแอร์พอร์ต เรล ลิงก์</span>
-            <span className="text-sm text-muted-foreground">Airport Rail Link Stations</span>
+            <span className="text-xl font-semibold">
+              สถานีแอร์พอร์ต เรล ลิงก์
+            </span>
+            <span className="text-sm text-muted-foreground">
+              Airport Rail Link Stations
+            </span>
           </div>
         </CardTitle>
       </CardHeader>
@@ -54,7 +60,11 @@ export const StationLine = ({
               </button>
 
               {index < stations.length - 1 && (
-                <div className="h-0.5 w-8 bg-border mx-1" />
+                <div
+                  className={`h-0.5 bg-border mx-1 ${
+                    page === "predict" ? "w-8" : "w-20"
+                  }`}
+                />
               )}
             </div>
           ))}

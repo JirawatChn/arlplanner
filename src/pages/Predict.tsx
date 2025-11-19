@@ -14,6 +14,8 @@ import {
   fetchRecommendation,
   isApiError,
 } from "@/api/predictions";
+import { getThaiDateString } from "@/utils/date";
+import { getCurrentHour } from "@/utils/time";
 
 const Predict = () => {
   const [selectedStation, setSelectedStation] = useState("A8");
@@ -33,12 +35,6 @@ const Predict = () => {
     setSelectedStation(station);
   };
 
-  const getThaiDateString = (date: Date) =>
-    date.toLocaleDateString("en-CA", { timeZone: "Asia/Bangkok" });
-
-  function getCurrentHour(): number {
-    return new Date().getHours(); // 0–23
-  }
 
   const handlePredict = async (params: {
     station: string;
@@ -220,7 +216,7 @@ const Predict = () => {
       <main className="flex-1 container mx-auto px-6 py-8">
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
           {/* Left Panel - Prediction Settings */}
-          <div className="lg:col-span-1 lg:sticky top-6 h-fit">
+          <div className="lg:col-span-1 lg:sticky lg:top-20 top-6 h-fit">
             <PredictionSettings
               selectedStation={selectedStation}
               onStationChange={handleStationChange}
@@ -235,6 +231,7 @@ const Predict = () => {
               <StationLine
                 selectedStation={selectedStation}
                 onStationSelect={handleStationChange}
+                page="predict"
               />
             </div>
 

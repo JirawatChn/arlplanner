@@ -38,3 +38,7 @@ export function formatThaiDate(dateString: string) {
 
   return `วัน${dayName}ที่ ${dayOfMonth} ${monthName} ${thaiYear}`;
 }
+
+  export const getThaiDateString = (date: Date) =>
+    date.toLocaleDateString("en-CA", { timeZone: "Asia/Bangkok" });
+

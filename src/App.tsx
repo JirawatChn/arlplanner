@@ -19,7 +19,7 @@ const router = createBrowserRouter(
     { path: "/predict", element: <Predict /> },
     { path: "/overview", element: <Overview /> },
     { path: "/dashboard", element: <Dashboard /> },
-    { path: "/threedays", element: <ThreeDaysPredict /> },
+    { path: "/admin", element: <ThreeDaysPredict /> },
     { path: "*", element: <NotFound /> },
   ],
   {

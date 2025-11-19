@@ -8,17 +8,25 @@ const Dashboard = () => {
       <TopNavigation />
 
       <main className="flex-1 container mx-auto px-6 py-8">
-        <Card className="max-w-4xl mx-auto bg-card shadow-md">
+        <Card className="w-full mx-auto bg-card shadow-md">
           <CardHeader>
-            <CardTitle className="text-2xl font-semibold">
-              Dashboard
-            </CardTitle>
+            <CardTitle className="text-xl font-semibold">
+              <div className="flex flex-col">
+                <span className="text-xl font-semibold">แดช์บอร์ด</span>
+                <span className="text-sm text-muted-foreground">Dashboard</span>
+              </div>
+            </CardTitle>{" "}
           </CardHeader>
+
           <CardContent>
-            <p className="text-muted-foreground">
-              Dashboard functionality coming soon. Check back later for
-              train schedules and departure times.
-            </p>
+            <iframe
+              width="100%"
+              height="600"
+              src="https://lookerstudio.google.com/embed/reporting/885fa0bc-1541-4be9-b344-2d954b732bc5/page/p_0g5czmctxd"
+              style={{ border: 0 }}
+              allowFullScreen
+              sandbox="allow-storage-access-by-user-activation allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"
+            />
           </CardContent>
         </Card>
       </main>

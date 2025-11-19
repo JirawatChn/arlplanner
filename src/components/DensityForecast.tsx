@@ -24,7 +24,7 @@ interface DensityForecastProps {
   predictionDate: string;
   forecast: ForecastBlock[] | null;
   status: "idle" | "success" | "error" | "no-data";
-  mode: "predict" | "recommend";
+  mode?: "predict" | "recommend" | "overview";
 }
 
 type DensityLevel = "คนน้อย" | "ปานกลาง" | "คนเยอะ" | "หนาแน่นมาก";
@@ -70,12 +70,34 @@ export const DensityForecast = ({
         <CardHeader>
           <CardTitle className="text-xl font-semibold">
             <div className="flex flex-col">
-              <span className="text-xl font-semibold">
-                ความหนาแน่นผู้โดยสาร
-              </span>
-              <span className="text-sm text-muted-foreground">
-                Passenger Density
-              </span>
+              {mode === "predict" ? (
+                <>
+                  <span className="text-xl font-semibold">
+                    ความหนาแน่นผู้โดยสาร
+                  </span>
+                  <span className="text-sm text-muted-foreground">
+                    Passenger Density
+                  </span>
+                </>
+              ) : mode === "recommend" ? (
+                <>
+                  <span className="text-xl font-semibold">
+                    3 ช่วงเวลาที่คนน้อยที่สุด
+                  </span>
+                  <span className="text-sm text-muted-foreground">
+                    Recommended Low-Density Hours
+                  </span>
+                </>
+              ) : (
+                <>
+                  <span className="text-xl font-semibold">
+                    ความหนาแน่นผู้โดยสารรายวัน
+                  </span>
+                  <span className="text-sm text-muted-foreground">
+                    Daily Passenger Density
+                  </span>
+                </>
+              )}
             </div>
           </CardTitle>
         </CardHeader>
@@ -98,12 +120,34 @@ export const DensityForecast = ({
         <CardHeader>
           <CardTitle className="text-xl font-semibold">
             <div className="flex flex-col">
-              <span className="text-xl font-semibold">
-                ความหนาแน่นผู้โดยสาร
-              </span>
-              <span className="text-sm text-muted-foreground">
-                Passenger Density
-              </span>
+              {mode === "predict" ? (
+                <>
+                  <span className="text-xl font-semibold">
+                    ความหนาแน่นผู้โดยสาร
+                  </span>
+                  <span className="text-sm text-muted-foreground">
+                    Passenger Density
+                  </span>
+                </>
+              ) : mode === "recommend" ? (
+                <>
+                  <span className="text-xl font-semibold">
+                    3 ช่วงเวลาที่คนน้อยที่สุด
+                  </span>
+                  <span className="text-sm text-muted-foreground">
+                    Recommended Low-Density Hours
+                  </span>
+                </>
+              ) : (
+                <>
+                  <span className="text-xl font-semibold">
+                    ความหนาแน่นผู้โดยสารรายวัน
+                  </span>
+                  <span className="text-sm text-muted-foreground">
+                    Daily Passenger Density
+                  </span>
+                </>
+              )}
             </div>
           </CardTitle>
         </CardHeader>
@@ -149,13 +193,22 @@ export const DensityForecast = ({
                   Passenger Density
                 </span>
               </>
-            ) : (
+            ) : mode === "recommend" ? (
               <>
                 <span className="text-xl font-semibold">
                   3 ช่วงเวลาที่คนน้อยที่สุด
                 </span>
                 <span className="text-sm text-muted-foreground">
                   Recommended Low-Density Hours
+                </span>
+              </>
+            ) : (
+              <>
+                <span className="text-xl font-semibold">
+                  ความหนาแน่นผู้โดยสารรายวัน
+                </span>
+                <span className="text-sm text-muted-foreground">
+                  Daily Passenger Density
                 </span>
               </>
             )}
@@ -176,7 +229,7 @@ export const DensityForecast = ({
             const isMax = item.hour === maxSlot.hour;
 
             const blockStyle =
-              mode === "recommend"
+              mode !== "predict"
                 ? "bg-background border-border"
                 : isMin
                 ? "bg-density-low/10 border-density-low"
