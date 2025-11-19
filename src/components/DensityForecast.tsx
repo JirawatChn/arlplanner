@@ -289,6 +289,15 @@ export const DensityForecast = ({
             </div>
           </div>
         )}
+        <p className="text-xs text-muted-foreground mt-3">
+          * ผลลัพธ์นี้เพียงเป็นการทำนายจากข้อมูลในอดีต
+          ความหนาแน่นจริงในวันเดินทางอาจมากหรือน้อยกว่าที่แสดงได้
+          <br />
+          <span className="italic">
+            This is a prediction based on historical data. Actual passenger
+            density on your travel day may be higher or lower than shown.
+          </span>
+        </p>
       </CardContent>
     </Card>
   );
