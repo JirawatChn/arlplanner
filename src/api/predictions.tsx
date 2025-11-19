@@ -13,12 +13,12 @@ export function isApiError(error: unknown): error is ApiError {
     ("status" in error || "response" in error)
   );
 }
-
-const API_URL = "http://localhost:8000/api/predict/";
+const API_URL = "http://localhost:8000/";
+// const API_URL = "https://qjvhzs76-8000.asse.devtunnels.ms/";
 
 export const fetchPredictions = async ({ station, date, hour }) => {
   try {
-    const response = await axios.post(`${API_URL}predictions`, {
+    const response = await axios.post(`${API_URL}api/predict/predictions`, {
       station,
       date,
       hour,
@@ -33,7 +33,7 @@ export const fetchPredictions = async ({ station, date, hour }) => {
 
 export const fetchRecommendation = async ({ station, date }) => {
   try {
-    const response = await axios.post(`${API_URL}recommendation`, {
+    const response = await axios.post(`${API_URL}api/predict/recommendation`, {
       station,
       date,
     });
@@ -46,7 +46,7 @@ export const fetchRecommendation = async ({ station, date }) => {
 
 export const fetchOverview = async ({ station, date }) => {
   try {
-    const response = await axios.post(`${API_URL}overview`, {
+    const response = await axios.post(`${API_URL}api/predict/overview`, {
       station,
       date,
     });
@@ -60,7 +60,7 @@ export const fetchOverview = async ({ station, date }) => {
 
 export const threedaysPrediction = async ({ date }: { date: string }) => {
   try {
-    const response = await axios.post(`${API_URL}3days`, { date });
+    const response = await axios.post(`${API_URL}api/predict/3days`, { date });
     return response;
   } catch (error) {
     console.error("Error fetching prediction:", error);

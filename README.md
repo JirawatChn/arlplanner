@@ -1,73 +1,111 @@
-# Welcome to your Lovable project
+﻿# ARL Planner - Airport Rail Link Passenger Density Prediction System
 
-## Project info
+ARL Planner is a React + TypeScript web application that helps Airport Rail Link passengers plan their trips with hourly passenger density forecasts for every station. The UI is primarily Thai-first but mixes English helper text, supports both desktop and mobile screens, and is ready for deployment to GitHub Pages with an `/arlplanner` base path.
 
-**URL**: https://lovable.dev/projects/cc57aa44-f757-4dcb-b8d4-cdf2fd5c9f34
+## Project Overview
+- Display prediction results from the backend model through REST endpoints defined in `src/api/predictions.tsx`
+- Provide interactive forms for selecting station, date, and time and visualize the results with color-coded density levels and fallback states when no data is returned
+- Offer a full-day overview, low-density slot suggestions, an embedded Looker Studio dashboard, and an admin tool for triggering three-day forecasts
+- Share UI building blocks (`TopNavigation`, `StationLine`, shadcn/ui components) across every page to keep the experience consistent
 
-## How can I edit this code?
+## Key Features
+- **Interactive prediction** - `PredictionSettings` collects station/date/time input and calls `fetchPredictions`; results are rendered inside `DensityForecast` with Thai labels and density badges ranging from "low" to "very high"
+- **Low-density recommendations** - The extra button on `/predict` uses `fetchRecommendation` to fetch and sort the three quietest hours for the selected station
+- **Full-day overview** - `/overview` uses `OverviewSettings` and `fetchOverview` to fetch every hour of the selected day and display it alongside the Airport Rail Link station line map
+- **Looker Studio dashboard** - `/dashboard` embeds a Google Looker Studio report for historical KPIs and operational monitoring beyond the interactive forecast blocks
+- **Admin three-day trigger** - `/admin` exposes a simple button that calls `threedaysPrediction` and prints the JSON payload so operators can verify batch runs or data quality checks
 
-There are several ways of editing your application.
+## Tech Stack
+- React 18 + TypeScript + Vite
+- React Router DOM 6 with `basename=/arlplanner`
+- Tailwind CSS + shadcn/ui + Radix UI + Lucide icons
+- Axios for REST calls to a FastAPI (or compatible) backend
+- dayjs, date-fns, and local utilities for Thai date/time formatting
+- ESLint + TypeScript for linting and type safety
+- gh-pages for GitHub Pages deployment
 
-**Use Lovable**
-
-Simply visit the [Lovable Project](https://lovable.dev/projects/cc57aa44-f757-4dcb-b8d4-cdf2fd5c9f34) and start prompting.
-
-Changes made via Lovable will be committed automatically to this repo.
-
-**Use your preferred IDE**
-
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
-
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
-
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
+## Project Structure
+```text
+.
+|- public/
+|- src/
+|  |- api/
+|  |  |- predictions.tsx
+|  |- components/
+|  |  |- DensityForecast.tsx
+|  |  |- PredictionSettings.tsx
+|  |  |- OverviewSettings.tsx
+|  |  |- StationLine.tsx
+|  |  |- TopNavigation.tsx
+|  |- data/
+|  |  |- stations.tsx
+|  |- pages/
+|  |  |- Dashboard.tsx
+|  |  |- Home.tsx
+|  |  |- Overview.tsx
+|  |  |- Predict.tsx
+|  |  |- ThreeDaysPredict.tsx
+|  |- utils/
+|  |  |- date.tsx
+|  |  |- time.tsx
+|  |- main.tsx
+|- package.json
+|- vite.config.ts
+|- README.md
 ```
 
-**Edit a file directly in GitHub**
+## Getting Started
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+### Prerequisites
+- Node.js 18+ (npm 10+ recommended)
+- Backend REST API that exposes `/api/predict/*` endpoints (default base URL is `http://localhost:8000/`)
+- Git or another source control tool
 
-**Use GitHub Codespaces**
+### Installation
+1. Clone or download the repository and open the `arlplanner` folder
+2. Install dependencies with `npm install`
+3. Start the dev server with `npm run dev` and open `http://localhost:5173/arlplanner`
+4. Build production assets with `npm run build` to generate the `dist` folder
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+### Common Scripts
+- `npm run dev` - start Vite with HMR
+- `npm run build` - produce optimized assets in `dist`
+- `npm run preview` - serve the build output locally
+- `npm run lint` - run ESLint across the project
+- `npm run deploy` - build and publish `dist` to GitHub Pages via `gh-pages`
 
-## What technologies are used for this project?
+## API & Base Path Configuration
+Update the backend host in `src/api/predictions.tsx`:
 
-This project is built with:
+```ts
+const API_URL = "http://localhost:8000/";
+```
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+Ensure the backend exposes `api/predict/predictions`, `api/predict/recommendation`, `api/predict/overview`, and `api/predict/3days`. Adjust `API_URL` for staging/production hosts as needed.
 
-## How can I deploy this project?
+Routing uses a base path inside `src/App.tsx`:
 
-Simply open [Lovable](https://lovable.dev/projects/cc57aa44-f757-4dcb-b8d4-cdf2fd5c9f34) and click on Share -> Publish.
+```ts
+const router = createBrowserRouter(routes, {
+  basename: "/arlplanner",
+});
+```
 
-## Can I connect a custom domain to my Lovable project?
+If you deploy to the domain root, change both the router `basename` and the `homepage` field inside `package.json`.
 
-Yes, you can!
+## Pages & Workflows
+- **Home (`/`)** - highlight the project, logo, CTA buttons, and key feature blocks
+- **Predict (`/predict`)** - choose station/date/time, run `fetchPredictions`, visualize the hourly density, or request low-density recommendations
+- **Overview (`/overview`)** - pick a station and date to fetch an entire day via `fetchOverview`; the page auto-loads today's data on mount
+- **Dashboard (`/dashboard`)** - embedded Looker Studio iframe for KPI tracking
+- **Admin (`/admin`)** - trigger the three-day prediction job and inspect the raw JSON response
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+## GitHub Pages Deployment
+1. Confirm `homepage` in `package.json` and the router `basename` both match your GitHub Pages URL (e.g., `jirawatchn.github.io/arlplanner`)
+2. Run `npm run deploy` to build and push `dist` to the `gh-pages` branch
+3. Enable GitHub Pages on the repository and point it at the `gh-pages` branch generated by the script
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+## Development Notes
+- Run `npm run lint` before committing to satisfy ESLint + TypeScript rules
+- When adding new API integrations, keep them inside `src/api/predictions.tsx` and propagate status flags (`idle | success | error | no-data`) so UI states remain consistent
+- Test every page on desktop and mobile widths to confirm shadcn/ui components respond correctly and the navigation collapses into the mobile menu without layout shifts
