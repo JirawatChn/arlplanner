@@ -31,11 +31,12 @@ export const fetchPredictions = async ({ station, date, hour }) => {
   }
 };
 
-export const fetchRecommendation = async ({ station, date }) => {
+export const fetchRecommendation = async ({ station, date, hour }) => {
   try {
     const response = await axios.post(`${API_URL}api/predict/recommendation`, {
       station,
       date,
+      hour
     });
     return response.data
   } catch (error) {

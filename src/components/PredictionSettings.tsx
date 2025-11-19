@@ -20,6 +20,7 @@ interface PredictionSettingsProps {
   OnRecommendation: (params: {
     station: string;
     predictionDate: string;
+    timeRange: string;
   }) => void;
 }
 
@@ -129,6 +130,7 @@ export const PredictionSettings = ({
               OnRecommendation({
                 station: selectedStation,
                 predictionDate,
+                timeRange: timeRange,
               })
             }
             variant="outline"

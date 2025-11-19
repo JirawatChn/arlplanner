@@ -147,6 +147,15 @@ const Predict = () => {
       finalDateValue = getThaiDateString(d);
     }
 
+    let finalHour: number;
+
+    if (params.timeRange === "now") {
+      const currentHour = getCurrentHour(); // 0–23
+      finalHour = currentHour <= 5 ? 6 : currentHour; // ARL เปิด 6–23
+    } else {
+      finalHour = Number(params.timeRange);
+    }
+
     setFinalDate(finalDateValue);
     setPredictedStation(params.station);
 
@@ -158,6 +167,7 @@ const Predict = () => {
       const apiResponse = await fetchRecommendation({
         station: params.station,
         date: finalDateValue,
+        hour: finalHour,
       });
 
       if (!apiResponse.results || apiResponse.results.length === 0) {
