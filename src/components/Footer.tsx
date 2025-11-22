@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 export const Footer = () => {
   return (
     <footer className="w-full border-t border-border bg-background mt-12">
@@ -17,6 +19,19 @@ export const Footer = () => {
           </div>
         </div>
       </div> */}
+
+      <div className="container mx-auto px-6 py-6">
+        <div className="flex flex-wrap items-center justify-between gap-4 text-sm text-muted-foreground">
+          <div className="flex gap-6">
+            <Link
+              to="/admin"
+              className="hover:text-foreground transition-colors"
+            >
+              Admin
+            </Link>
+          </div>
+        </div>
+      </div>
     </footer>
   );
 };
