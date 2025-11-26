@@ -9,6 +9,14 @@ import {
 } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import { stations } from "@/data/stations";
+import { Info } from "lucide-react";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+  TooltipProvider,
+} from "@/components/ui/tooltip";
+
 interface PredictionSettingsProps {
   selectedStation: string;
   onStationChange: (station: string) => void;
@@ -125,19 +133,37 @@ export const PredictionSettings = ({
           >
             ดูความหนาแน่นผู้โดยสาร
           </Button>
-          <Button
-            onClick={() =>
-              OnRecommendation({
-                station: selectedStation,
-                predictionDate,
-                timeRange: timeRange,
-              })
-            }
-            variant="outline"
-            className="w-full h-11 rounded-lg font-medium border-primary text-primary"
-          >
-            แนะนำช่วงเวลาคนน้อย
-          </Button>
+
+          <div className="relative w-full">
+            <Button
+              onClick={() =>
+                OnRecommendation({
+                  station: selectedStation,
+                  predictionDate,
+                  timeRange,
+                })
+              }
+              variant="outline"
+              className="w-full h-11 rounded-lg font-medium border-primary text-primary relative flex items-center justify-center"
+            >
+              <span className="pointer-events-none">แนะนำช่วงเวลาคนน้อย</span>
+            </Button>
+
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Info className="absolute right-3 top-1/2 -translate-y-1/2 h-5 w-5 text-primary cursor-pointer" />
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p className="text-sm text-center">
+                    อ้างอิงจากช่วงเวลาที่ผู้ใช้เลือก โดยขยายช่วงเป็น ± 2 ชั่วโมง
+                    <br />
+                    และคัดเลือก 3 ช่วงเวลาที่มีจำนวนผู้โดยสารน้อยที่สุด
+                  </p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+          </div>
         </div>
       </CardContent>
     </Card>
