@@ -20,7 +20,7 @@ const Overview = () => {
   );
   const [finalDate, setFinalDate] = useState("");
   const [predictionStatus, setPredictionStatus] = useState<
-    "idle" | "success" | "error" | "no-data"
+    "idle" | "success" | "error" | "no-data" | "loading"
   >("idle");
   const firstStation = useRef(selectedStation);
 
@@ -56,8 +56,8 @@ const Overview = () => {
     setPredictedStation(params.station);
 
     try {
-      setPredictionStatus("idle");
-      setShowForecast(false);
+      setPredictionStatus("loading");
+      setShowForecast(true);
 
       const apiResponse = await fetchOverview(sendData);
 

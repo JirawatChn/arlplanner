@@ -23,7 +23,7 @@ interface DensityForecastProps {
   stationCode: string;
   predictionDate: string;
   forecast: ForecastBlock[] | null;
-  status: "idle" | "success" | "error" | "no-data";
+  status: "idle" | "success" | "error" | "no-data" | "loading";
   mode?: "predict" | "recommend" | "overview";
 }
 
@@ -63,7 +63,74 @@ export const DensityForecast = ({
     ? formatThaiDate(predictionDate)
     : "";
 
-  // 🟡 เคสไม่มีข้อมูล (เช่น backend คืน 404 แล้ว frontend set status = "no-data")
+  if (status === "loading") {
+    return (
+      <Card className="w-full bg-card shadow-md">
+        <CardHeader>
+          <CardTitle className="text-xl font-semibold">
+            <div className="flex flex-col">
+              {mode === "predict" ? (
+                <>
+                  <span className="text-xl font-semibold">
+                    ความหนาแน่นผู้โดยสาร
+                  </span>
+                  <span className="text-sm text-muted-foreground">
+                    Passenger Density
+                  </span>
+                </>
+              ) : mode === "recommend" ? (
+                <>
+                  <span className="text-xl font-semibold">
+                    3 ช่วงเวลาที่คนน้อยที่สุด
+                  </span>
+                  <span className="text-sm text-muted-foreground">
+                    Recommended Low-Density Hours
+                  </span>
+                </>
+              ) : (
+                <>
+                  <span className="text-xl font-semibold">
+                    ความหนาแน่นผู้โดยสารรายวัน
+                  </span>
+                  <span className="text-sm text-muted-foreground">
+                    Daily Passenger Density
+                  </span>
+                </>
+              )}
+            </div>
+          </CardTitle>
+        </CardHeader>
+
+        <CardContent className="space-y-4">
+          <div className="text-muted-foreground">
+            สถานี{stationNameTH} ({stationCode}) — {predictionDateLabel}
+          </div>
+          
+          <p className="text-xs text-muted-foreground mt-3 flex items-center gap-2">
+            <span className="inline-block h-3 w-3 rounded-full border-2 border-primary border-t-transparent animate-spin" />
+            กำลังดึงผลการทำนาย กรุณารอสักครู่...
+          </p>
+
+          {/* Loading skeleton */}
+          <div className="space-y-3 mt-2">
+            {[1, 2, 3, 4].map((i) => (
+              <div
+                key={i}
+                className="flex items-center justify-between p-4 rounded-lg border border-border"
+              >
+                <div className="flex-1">
+                  <div className="h-4 w-32 rounded bg-muted animate-pulse" />
+                  <div className="h-3 w-24 rounded bg-muted mt-2 animate-pulse" />
+                </div>
+                <div className="h-6 w-16 rounded-full bg-muted animate-pulse" />
+              </div>
+            ))}
+          </div>
+        </CardContent>
+      </Card>
+    );
+  }
+
   if (status === "no-data") {
     return (
       <Card className="w-full bg-card shadow-md">

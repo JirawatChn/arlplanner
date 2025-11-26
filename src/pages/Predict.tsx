@@ -28,13 +28,12 @@ const Predict = () => {
   const [mode, setMode] = useState<"predict" | "recommend">("predict");
 
   const [predictionStatus, setPredictionStatus] = useState<
-    "idle" | "success" | "error" | "no-data"
+    "idle" | "success" | "error" | "no-data" | "loading"
   >("idle");
 
   const handleStationChange = (station: string) => {
     setSelectedStation(station);
   };
-
 
   const handlePredict = async (params: {
     station: string;
@@ -77,8 +76,8 @@ const Predict = () => {
     setPredictedStation(params.station);
 
     try {
-      setPredictionStatus("idle");
-      setShowForecast(false);
+      setPredictionStatus("loading");
+      setShowForecast(true);
 
       const apiResponse = await fetchPredictions(sendData);
 
@@ -160,8 +159,8 @@ const Predict = () => {
     setPredictedStation(params.station);
 
     try {
-      setPredictionStatus("idle");
       setShowForecast(false);
+      setPredictionStatus("loading");
 
       // 🔹 เรียก API แนะนำ
       const apiResponse = await fetchRecommendation({
