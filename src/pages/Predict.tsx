@@ -159,8 +159,8 @@ const Predict = () => {
     setPredictedStation(params.station);
 
     try {
-      setShowForecast(false);
       setPredictionStatus("loading");
+      setShowForecast(true);
 
       // 🔹 เรียก API แนะนำ
       const apiResponse = await fetchRecommendation({

@@ -55,12 +55,10 @@ const Home = () => {
             >
               ดูความหนาแน่นตลอดวัน
             </Button>
-
-            
           </div>
 
           {/* 3 Block ฟีเจอร์ */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-16 max-w-6xl mx-auto">
+          <div className="hidden md:grid grid-cols-1 md:grid-cols-3 gap-8 mt-16 max-w-6xl mx-auto">
             {/* Block 1 */}
             <div className="p-8 bg-card rounded-2xl border border-border shadow-sm h-full flex flex-col items-center text-center">
               <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-4">
@@ -104,7 +102,6 @@ const Home = () => {
             </div>
           </div>
         </div>
-        
       </main>
 
       <Footer />
