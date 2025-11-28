@@ -58,13 +58,3 @@ export const fetchOverview = async ({ station, date }) => {
     throw error;
   }
 };
-
-export const threedaysPrediction = async ({ date }: { date: string }) => {
-  try {
-    const response = await axios.post(`${API_URL}api/predict/3days`, { date });
-    return response;
-  } catch (error) {
-    console.error("Error fetching prediction:", error);
-    throw error;
-  }
-};

@@ -8,7 +8,6 @@ import Home from "./pages/Home";
 import Predict from "./pages/Predict";
 import NotFound from "./pages/NotFound";
 import Dashboard from "./pages/Dashboard";
-import ThreeDaysPredict from "./pages/ThreeDaysPredict";
 import Overview from "./pages/Overview";
 
 const queryClient = new QueryClient();
@@ -19,7 +18,6 @@ const router = createBrowserRouter(
     { path: "/predict", element: <Predict /> },
     { path: "/overview", element: <Overview /> },
     { path: "/dashboard", element: <Dashboard /> },
-    { path: "/admin", element: <ThreeDaysPredict /> },
     { path: "*", element: <NotFound /> },
   ],
   {

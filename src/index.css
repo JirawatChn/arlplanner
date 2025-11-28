@@ -32,6 +32,9 @@ All colors MUST be HSL.
     --accent: 217 91% 60%;
     --accent-foreground: 0 0% 100%;
 
+    --icon-accent: 207 80% 92%;
+    --icon-accent-foreground: 207 100% 30%;
+
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
 
@@ -121,4 +124,12 @@ All colors MUST be HSL.
     @apply bg-background text-foreground;
     font-family: var(--font-sans);
   }
+}
+
+.bg-gradient {
+  background: linear-gradient(
+    180deg,
+    hsl(203 92% 38% / 0.90) 0%,
+    hsl(160 70% 36% / 0.80) 100%
+  );
 }
