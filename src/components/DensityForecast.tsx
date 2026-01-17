@@ -102,7 +102,7 @@ export const DensityForecast = ({
         </CardHeader>
 
         <CardContent className="space-y-4">
-          <div className="text-muted-foreground">
+          <div className="text-sm text-muted-foreground">
             สถานี{stationNameTH} ({stationCode}) — {predictionDateLabel}
           </div>
           
@@ -169,7 +169,7 @@ export const DensityForecast = ({
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
-          <div className="text-muted-foreground">
+          <div className="text-sm text-muted-foreground">
             สถานี{stationNameTH} ({stationCode}) — {predictionDateLabel}
           </div>
 
@@ -219,7 +219,7 @@ export const DensityForecast = ({
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
-          <div className="text-muted-foreground">
+          <div className="text-sm text-muted-foreground">
             สถานี{stationNameTH} ({stationCode}) — {predictionDateLabel}
           </div>
 
@@ -284,7 +284,7 @@ export const DensityForecast = ({
       </CardHeader>
 
       <CardContent className="space-y-4">
-        <div className="text-muted-foreground">
+        <div className="text-sm text-muted-foreground">
           สถานี{stationNameTH} ({stationCode}) — {predictionDateLabel}
         </div>
 

@@ -13,8 +13,8 @@ export function isApiError(error: unknown): error is ApiError {
     ("status" in error || "response" in error)
   );
 }
-const API_URL = "http://localhost:8000/";
-// const API_URL = "https://qjvhzs76-8000.asse.devtunnels.ms/";
+// const API_URL = "http://localhost:8000/";
+const API_URL = "https://qjvhzs76-8000.asse.devtunnels.ms/";
 
 export const fetchPredictions = async ({ station, date, hour }) => {
   try {
